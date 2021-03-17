@@ -11,8 +11,55 @@ namespace Calculadora.Interfaz
     {
         static void Main()
         {
+            string modo;
+
+            do
+            {
+                Console.Write("Ingresar modo de operación: E para expresión o S para valores separados: ");
+                modo = Console.ReadLine();
+                switch (modo.ToUpper())
+                {
+                    case "E":
+                        EjecutarModoExpresion();
+                        break;
+                    case "S":
+                        EjecutarModoSeparado();
+                        break;
+                    default:
+                        Console.WriteLine("Modo inválido.");
+                        break;
+                }
+            } while (modo.ToUpper() != "E" && modo.ToUpper() != "S");
+            
+
+        }
+
+        static void EjecutarModoExpresion()
+        {
+            string expresion;
+            decimal resultado;
+
+            do
+            {
+                Console.Write("Ingresar expresión (ej: 1+1) o S para salir: ");
+                expresion = Console.ReadLine();
+                if (expresion.ToUpper() == "S") return;
+
+                if(Calc.CalcularExpresion(expresion, out resultado))
+                {
+                    Console.WriteLine("Resultado: {0}", resultado);
+                }
+                else
+                {
+                    Console.WriteLine("Error: operación inválida.");
+                }
+
+            } while (expresion.ToUpper() != "S");
+        }
+        static void EjecutarModoSeparado()
+        {
             string valorLeido;
-            decimal valorA, valorB;
+            decimal valorA, valorB, resultado;
             string simboloOperacion = "";
 
             do
@@ -29,29 +76,43 @@ namespace Calculadora.Interfaz
 
                 Console.Write("Ingresar símbolo de la operación (+ - * /) o S para salir: ");
                 simboloOperacion = Console.ReadLine();
-                switch (simboloOperacion)
+
+                if (simboloOperacion.ToUpper() == "S") break;
+
+                if(Calc.Calcular(valorA, valorB, simboloOperacion, out resultado))
                 {
-                    case "+":
-                        Console.WriteLine($"Suma: {valorA} + {valorB} = {Calc.Sumar(valorA,valorB)}");
-                        break;
-                    case "-":
-                        Console.WriteLine($"Resta: {valorA} - {valorB} = {Calc.Restar(valorA,valorB)}");
-                        break;
-                    case "*":
-                        Console.WriteLine($"Multiplicación: {valorA} * {valorB} = {Calc.Multiplicar(valorA, valorB)}");
-                        break;
-                    case "/":
-                        Console.WriteLine($"División: {valorA} / {valorB} = {Calc.Dividir(valorA, valorB)}");
-                        break;
-                    default:
-                        Console.WriteLine("Error: símbolo de operación inválido.");
-                        break;
+                    //ImprimirResultado(valorA, valorB, simboloOperacion, resultado);
+                    Console.WriteLine("Resultado: {0}", resultado);
+                }
+                else
+                {
+                    Console.WriteLine("Error: operación inválida");
                 }
                 
-            } while (simboloOperacion.ToLower() != "s");
 
+            } while (simboloOperacion.ToUpper() != "S");
         }
-
+        public static void ImprimirResultado(decimal valorA, decimal valorB, string operacion, decimal resultado)
+        {
+            switch (operacion)
+            {
+                case "+":
+                    Console.WriteLine($"Suma: {valorA} + {valorB} = {resultado}");
+                    break;
+                case "-":
+                    Console.WriteLine($"Resta: {valorA} - {valorB} = {resultado}");
+                    break;
+                case "*":
+                    Console.WriteLine($"Multiplicación: {valorA} * {valorB} = {resultado}");
+                    break;
+                case "/":
+                    Console.WriteLine($"División: {valorA} / {valorB} = {resultado}");
+                    break;
+                default:
+                    Console.WriteLine("Error: símbolo de operación inválido.");
+                    break;
+            }
+        }
         static bool ValidarNumero(string str, out decimal num)
         {
             bool fueValidacionExitosa = Calc.ValidarDecimal(str, out num);
