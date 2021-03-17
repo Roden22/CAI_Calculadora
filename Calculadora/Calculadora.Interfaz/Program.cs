@@ -81,7 +81,6 @@ namespace Calculadora.Interfaz
 
                 if(Calc.Calcular(valorA, valorB, simboloOperacion, out resultado))
                 {
-                    //ImprimirResultado(valorA, valorB, simboloOperacion, resultado);
                     Console.WriteLine("Resultado: {0}", resultado);
                 }
                 else
@@ -92,27 +91,7 @@ namespace Calculadora.Interfaz
 
             } while (simboloOperacion.ToUpper() != "S");
         }
-        public static void ImprimirResultado(decimal valorA, decimal valorB, string operacion, decimal resultado)
-        {
-            switch (operacion)
-            {
-                case "+":
-                    Console.WriteLine($"Suma: {valorA} + {valorB} = {resultado}");
-                    break;
-                case "-":
-                    Console.WriteLine($"Resta: {valorA} - {valorB} = {resultado}");
-                    break;
-                case "*":
-                    Console.WriteLine($"Multiplicación: {valorA} * {valorB} = {resultado}");
-                    break;
-                case "/":
-                    Console.WriteLine($"División: {valorA} / {valorB} = {resultado}");
-                    break;
-                default:
-                    Console.WriteLine("Error: símbolo de operación inválido.");
-                    break;
-            }
-        }
+        
         static bool ValidarNumero(string str, out decimal num)
         {
             bool fueValidacionExitosa = Calc.ValidarDecimal(str, out num);
